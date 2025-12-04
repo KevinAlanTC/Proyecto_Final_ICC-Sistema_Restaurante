@@ -214,4 +214,56 @@ public class SistemaTareas {
     
     // Setters
     public void setUsuarioActual(Usuario usuarioActual) { this.usuarioActual = usuarioActual; }
+    
+ // En SistemaTareas.java, agrega este método:
+
+    public boolean eliminarOrden(int idOrden) {
+        Orden orden = buscarOrdenPorId(idOrden);
+        
+        if (orden == null) {
+            System.out.println("❌ Orden no encontrada.");
+            return false;
+        }
+        
+        // Verificar si la orden ya fue entregada
+        if (orden.isEntregada()) {
+            System.out.println("⚠️  No se puede eliminar una orden ya entregada.");
+            System.out.println("   Si necesita anular una venta, use el sistema de contabilidad.");
+            return false;
+        }
+        
+        // Liberar la mesa si está ocupada
+        if (orden.getMesa().isOcupada()) {
+            orden.getMesa().setOcupada(false);
+            System.out.println("✅ Mesa " + orden.getMesa().getNumero() + " liberada.");
+        }
+        
+        // Remover la orden de la lista
+        boolean eliminada = ordenes.removeIf(o -> o.getId() == idOrden);
+        
+        if (eliminada) {
+            System.out.println("✅ Orden #" + idOrden + " eliminada exitosamente.");
+            
+            // Ajustar ventas del día si la orden era del día de hoy
+            if (esOrdenDeHoy(orden)) {
+                ventasDia -= orden.getTotal();
+                System.out.println("⚠️  Se descontó $" + orden.getTotal() + " de las ventas del día.");
+            }
+            
+            // Guardar cambios
+            guardarEstado();
+            return true;
+        }
+        
+        return false;
+    }
+
+    // Método para buscar orden por ID
+    public Orden buscarOrdenPorId(int id) {
+        return ordenes.stream()
+            .filter(o -> o.getId() == id)
+            .findFirst()
+            .orElse(null);
+    }
+
 }
