@@ -5,3 +5,4 @@ id,nombre,email,rol,password
 4,Rodrigo Sánches,rodrigos@restaurante.com,Cocinero,rodrigo123
 5,Monica Rul,monicar@restaurante.com,Mesero,monica123
 6,sam,sam@restaurante.com,Cocinero,sam123
+7,Kevin,kevin@restaurante.com,Administrador,Kev123
