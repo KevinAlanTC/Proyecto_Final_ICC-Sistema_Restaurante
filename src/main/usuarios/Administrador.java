@@ -112,7 +112,7 @@ public class Administrador extends Usuario
 	            scanner.nextLine();
 	            return false;
 	        case 9:
-	            admin.mostrarInfo(false);
+	            this.mostrarInfo(false);
 	            System.out.println("\nPresione Enter para continuar...");
 	            scanner.nextLine();
 	            return false;
