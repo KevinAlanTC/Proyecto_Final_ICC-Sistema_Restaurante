@@ -93,7 +93,7 @@ public class Main {
             if (usuario instanceof Sudo)
                 cerrarSesion = ((Sudo) usuario).mostrarMenu();
             else if (usuario instanceof Administrador) {
-                cerrarSesion = mostrarMenuAdministrador((Administrador) usuario);
+                cerrarSesion = ((Administrador) usuario).mostrarMenu();
             } else if (usuario instanceof Cocinero) {
                 cerrarSesion = mostrarMenuCocinero((Cocinero) usuario);
             } else if (usuario instanceof Mesero) {
@@ -104,84 +104,6 @@ public class Main {
             }
         }
     }
-
-    
-
-
-    
-    private static boolean mostrarMenuAdministrador(Administrador admin) {
-    System.out.println("\n=== MENÚ ADMINISTRADOR ===");
-    System.out.println("1. Crear tarea");
-    System.out.println("2. Asignar tarea");
-    System.out.println("3. Listar tareas");
-    System.out.println("4. Eliminar tarea");
-    System.out.println("5. Listar empleados");
-    System.out.println("6. Agregar nuevo empleado");
-    System.out.println("7. Eliminar empleado");
-    System.out.println("8. Eliminar orden");
-    System.out.println("9. Ver mi información");
-    System.out.println("10. Cerrar sesión");
-    System.out.print("Seleccione opción: ");
-    
-    int opcion = leerEntero();
-    
-    switch (opcion) {
-        case 1:
-            crearTarea(admin);
-            System.out.println("\nPresione Enter para continuar...");
-            scanner.nextLine();
-            return false;
-        case 2:
-            asignarTarea(admin);
-            System.out.println("\nPresione Enter para continuar...");
-            scanner.nextLine();
-            return false;
-        case 3:
-            sistema.listarTareas();
-            System.out.println("\nPresione Enter para continuar...");
-            scanner.nextLine();
-            return false;
-        case 4:
-            eliminarTarea();
-            System.out.println("\nPresione Enter para continuar...");
-            scanner.nextLine();
-            return false;
-        case 5:
-            listarEmpleados();
-            System.out.println("\nPresione Enter para continuar...");
-            scanner.nextLine();
-            return false;
-        case 6:
-            agregarNuevoEmpleado();
-            System.out.println("\nPresione Enter para continuar...");
-            scanner.nextLine();
-            return false;
-        case 7:
-            eliminarEmpleadoAdministrador(admin);
-            System.out.println("\nPresione Enter para continuar...");
-            scanner.nextLine();
-            return false;
-        case 8:
-            eliminarOrdenAdministrador(admin);
-            System.out.println("\nPresione Enter para continuar...");
-            scanner.nextLine();
-            return false;
-        case 9:
-            admin.mostrarInfo(false);
-            System.out.println("\nPresione Enter para continuar...");
-            scanner.nextLine();
-            return false;
-        case 10:
-            sistema.setUsuarioActual(null);
-            System.out.println("Sesión cerrada correctamente.");
-            return true;
-        default:
-            System.out.println("Opción inválida");
-            System.out.println("\nPresione Enter para continuar...");
-            scanner.nextLine();
-            return false;
-    }
-}
     
     private static void eliminarEmpleadoAdministrador(Administrador admin) {
     System.out.println("\n=== ELIMINAR EMPLEADO ===");
@@ -213,13 +135,13 @@ public class Main {
     Usuario usuario = sistema.buscarUsuarioPorId(idEmpleado);
     
     if (usuario == null) {
-        System.out.println("❌ Usuario no encontrado.");
+        System.out.println("Usuario no encontrado.");
         return;
     }
     
     // Verificar que no sea administrador o sudo
     if (usuario instanceof Administrador || usuario instanceof Sudo) {
-        System.out.println("❌ No tiene permisos para eliminar administradores.");
+        System.out.println("No tiene permisos para eliminar administradores.");
         System.out.println("   Solo el Sudo puede eliminar administradores.");
         return;
     }
