@@ -947,7 +947,7 @@ private static void modificarCantidadEnOrden(Orden orden) {
             }
         }
     } else {
-        System.out.println("❌ Error al modificar la cantidad.");
+        System.out.println("Error al modificar la cantidad.");
     }
 }
     

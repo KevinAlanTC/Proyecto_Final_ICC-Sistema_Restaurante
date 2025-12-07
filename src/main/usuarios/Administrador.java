@@ -77,7 +77,7 @@ public class Administrador extends Usuario
 	            scanner.nextLine();
 	            return false;
 	        case 2:
-	            asignarTarea(admin);
+	            asignarTarea();
 	            System.out.println("\nPresione Enter para continuar...");
 	            scanner.nextLine();
 	            return false;
@@ -270,7 +270,7 @@ public class Administrador extends Usuario
         }
     }
     
-    private void crearTarea(Administrador admin) 
+    private void crearTarea() 
     {
 	    System.out.print("Título de la tarea: ");
 	    String titulo = scanner.nextLine();
@@ -289,7 +289,7 @@ public class Administrador extends Usuario
 	        return;
 	    }
 	    
-	    Tarea tarea = admin.crearTarea(titulo, descripcion, fechaLimite);
+	    Tarea tarea = this.crearTarea(titulo, descripcion, fechaLimite);
 	    sistema.agregarTarea(tarea);
 	    System.out.println(" Tarea creada exitosamente");
 	}
@@ -308,7 +308,7 @@ public class Administrador extends Usuario
         }
     }
 
-    private void asignarTarea(Administrador admin) 
+    private void asignarTarea() 
     {
 	    System.out.println("\n=== ASIGNAR TAREA ===");
 	    
@@ -371,7 +371,7 @@ public class Administrador extends Usuario
 	                             tarea.getUsuarioAsignado().getNombre());
 	        }
 	        
-	        admin.asignarTarea(tarea, empleado);
+	        this.asignarTarea(tarea, empleado);
 	        System.out.println(" Tarea '" + tarea.getTitulo() + 
 	                         "' asignada exitosamente a " + empleado.getNombre());
 	    } else {
@@ -424,5 +424,51 @@ public class Administrador extends Usuario
 	        System.out.println(" Error: " + e.getMessage());
 	    }
 	}
+    
+    private void eliminarTarea() 
+    {
+        System.out.println("\n=== ELIMINAR TAREA ===");
+        
+        if (sistema.getTareas().isEmpty()) {
+            System.out.println("No hay tareas registradas.");
+            return;
+        }
+        
+        System.out.println("Lista de tareas:");
+        sistema.listarTareas();
+        
+        System.out.print("\nID de la tarea a eliminar (0 para cancelar): ");
+        int idTarea = EntradaUtils.leerEntero(scanner);
+        
+        if (idTarea == 0) {
+            System.out.println("Operación cancelada.");
+            return;
+        }
+        
+        Tarea tarea = sistema.buscarTareaPorId(idTarea);
+        if (tarea == null) {
+            System.out.println("Tarea no encontrada.");
+            return;
+        }
+        
+        System.out.println("Tarea a eliminar:");
+        tarea.mostrarDetalles();
+        
+        System.out.print("\n¿Está seguro de eliminar esta tarea? (s/n): ");
+        String confirmacion = scanner.nextLine().toLowerCase();
+        
+        if (confirmacion.equals("s") || confirmacion.equals("si")) {
+            // Remover tarea de cualquier empleado asignado
+            if (tarea.getUsuarioAsignado() != null) {
+                tarea.getUsuarioAsignado().removerTarea(tarea);
+            }
+            
+            // Eliminar tarea del sistema
+            sistema.getTareas().removeIf(t -> t.getId() == idTarea);
+            System.out.println("Tarea eliminada exitosamente.");
+        } else {
+            System.out.println("Operación cancelada.");
+        }
+    }
 
 }
