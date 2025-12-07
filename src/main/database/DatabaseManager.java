@@ -41,7 +41,7 @@ public class DatabaseManager {
         
         if (!file.exists()) {
             // Crear Sudo por defecto
-            usuarios.add(new Sudo());
+            usuarios.add(new Sudo(null, null));
             guardarUsuarios(usuarios);
             return usuarios;
         }
@@ -60,16 +60,16 @@ public class DatabaseManager {
                 if (datos.length >= 5) {
                     switch (datos[3]) {
                         case "Sudo":
-                            usuarios.add(new Sudo());
+                            usuarios.add(new Sudo(null, null));
                             break;
                         case "Administrador":
-                            usuarios.add(new Administrador(datos[1], datos[2], datos[4]));
+                            usuarios.add(new Administrador(datos[1], datos[2], datos[4], null, null));
                             break;
                         case "Cocinero":
-                            usuarios.add(new Cocinero(datos[1], datos[2], datos[4]));
+                            usuarios.add(new Cocinero(datos[1], datos[2], datos[4], null, null));
                             break;
                         case "Mesero":
-                            usuarios.add(new Mesero(datos[1], datos[2], datos[4]));
+                            usuarios.add(new Mesero(datos[1], datos[2], datos[4], null, null));
                             break;
                     }
                 }
