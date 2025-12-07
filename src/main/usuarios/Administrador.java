@@ -97,7 +97,7 @@ public class Administrador extends Usuario
 	            scanner.nextLine();
 	            return false;
 	        case 7:
-	            eliminarEmpleadoAdministrador(admin);
+	            eliminarEmpleadoAdministrador();
 	            System.out.println("\nPresione Enter para continuar...");
 	            scanner.nextLine();
 	            return false;
@@ -122,5 +122,66 @@ public class Administrador extends Usuario
 	            return false;
 	    }
 	}
-
+    
+    private void eliminarEmpleadoAdministrador() 
+    {
+	    System.out.println("\n=== ELIMINAR EMPLEADO ===");
+	    
+	    // Listar solo empleados (no administradores)
+	    List<Empleado> empleados = sistema.getEmpleados();
+	    
+	    if (empleados.isEmpty()) {
+	        System.out.println("No hay empleados registrados.");
+	        return;
+	    }
+	    
+	    System.out.println("Lista de empleados:");
+	    for (Empleado empleado : empleados) {
+	        System.out.println("ID: " + empleado.getId() + 
+	                         " | Nombre: " + empleado.getNombre() + 
+	                         " | Rol: " + empleado.getRol());
+	    }
+	    
+	    System.out.print("\nID del empleado a eliminar (0 para cancelar): ");
+	    int idEmpleado = EntradaUtils.leerEntero(scanner);
+	    
+	    if (idEmpleado == 0) {
+	        System.out.println("Operación cancelada.");
+	        return;
+	    }
+	    
+	    // Verificar que sea un empleado (no administrador o sudo)
+	    Usuario usuario = sistema.buscarUsuarioPorId(idEmpleado);
+	    
+	    if (usuario == null) {
+	        System.out.println("Usuario no encontrado.");
+	        return;
+	    }
+	    
+	    // Verificar que no sea administrador o sudo
+	    if (usuario instanceof Administrador || usuario instanceof Sudo) {
+	        System.out.println("No tiene permisos para eliminar administradores.");
+	        System.out.println("   Solo el Sudo puede eliminar administradores.");
+	        return;
+	    }
+	    
+	    if (!(usuario instanceof Empleado)) {
+	        System.out.println("El usuario seleccionado no es un empleado.");
+	        return;
+	    }
+	    
+	    System.out.println("Empleado a eliminar:");
+	    usuario.mostrarInfo(false);
+	    
+	    System.out.print("\n¿Está seguro de eliminar este empleado? (s/n): ");
+	    String confirmacion = scanner.nextLine().toLowerCase();
+	    
+	    if (confirmacion.equals("s") || confirmacion.equals("si")) {
+	        sistema.eliminarUsuario(idEmpleado);
+	        System.out.println("Empleado eliminado exitosamente.");
+	    } else {
+	        System.out.println("Operación cancelada.");
+	    }
+	}
+    
 }
