@@ -399,7 +399,7 @@ public class Mesero extends Empleado
 	    for (Orden orden : ordenesMesero) {
 	        System.out.println("\n[Orden #" + orden.getId() + "]");
 	        System.out.println("Mesa: " + orden.getMesa().getNumero());
-	        System.out.println("Estado: " + (orden.estaLista() ? "✅ LISTA" : "🔄 EN PREPARACIÓN"));
+	        System.out.println("Estado: " + (orden.estaLista() ? "LISTA" : "EN PREPARACIÓN"));
 	        System.out.println("Total: $" + orden.getTotal());
 	    }
 	    
@@ -465,5 +465,71 @@ public class Mesero extends Empleado
 	    }
 	}
 
+    private void agregarPlatilloAOrden(Orden orden) 
+    {
+        System.out.println("\n=== AGREGAR PLATILLO A LA ORDEN ===");
+        System.out.println("Platillos disponibles:");
+        
+        for (Platillo platillo : sistema.getPlatillos()) {
+            System.out.println("[ID: " + platillo.getId() + "] " + 
+                             platillo.getNombre() + 
+                             " - $" + platillo.getPrecio() +
+                             " (" + platillo.getTiempoPreparacion() + " min)");
+        }
+        
+        System.out.print("\nID del platillo a agregar (0 para cancelar): ");
+        int idPlatillo = EntradaUtils.leerEntero(scanner);
+        
+        if (idPlatillo == 0) {
+            System.out.println("Operación cancelada.");
+            return;
+        }
+        
+        Platillo platillo = sistema.getPlatillos().stream()
+            .filter(p -> p.getId() == idPlatillo)
+            .findFirst()
+            .orElse(null);
+        
+        if (platillo == null) {
+            System.out.println("❌ Platillo no encontrado.");
+            return;
+        }
+        
+        System.out.print("Cantidad de '" + platillo.getNombre() + "': ");
+        int cantidad = EntradaUtils.leerEntero(scanner);
+        
+        if (cantidad <= 0) {
+            System.out.println("❌ La cantidad debe ser mayor a 0.");
+            return;
+        }
+        
+        // Verificar si ya existe en la orden
+        boolean yaExiste = false;
+        for (ItemOrden item : orden.getItems()) {
+            if (item.getPlatillo().getId() == idPlatillo) {
+                yaExiste = true;
+                System.out.println("  Este platillo ya existe en la orden.");
+                System.out.println("Cantidad actual: " + item.getCantidad());
+                System.out.print("¿Desea agregar " + cantidad + " más? (s/n): ");
+                String respuesta = scanner.nextLine().toLowerCase();
+                
+                if (respuesta.equals("s") || respuesta.equals("si")) {
+                    // Agregar a la cantidad existente
+                    orden.agregarCantidadPlatillo(idPlatillo, cantidad);
+                    System.out.println(" Agregados " + cantidad + " más de '" + platillo.getNombre() + "'.");
+                } else {
+                    System.out.println("Operación cancelada.");
+                }
+                break;
+            }
+        }
+        
+        if (!yaExiste) {
+            orden.agregarNuevoPlatillo(platillo, cantidad);
+            System.out.println(" Agregados " + cantidad + " x '" + platillo.getNombre() + "' a la orden.");
+        }
+    }
 
+    
+    
 }
