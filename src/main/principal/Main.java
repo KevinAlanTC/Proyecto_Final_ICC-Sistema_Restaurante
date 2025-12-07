@@ -90,9 +90,9 @@ public class Main {
         while (!cerrarSesion) {
             System.out.println("\n=== MENÚ DE " + usuario.getRol().toUpperCase() + " ===");
             
-            if (usuario instanceof Sudo) {
-                cerrarSesion = mostrarMenuSudo();
-            } else if (usuario instanceof Administrador) {
+            if (usuario instanceof Sudo)
+                cerrarSesion = ((Sudo) usuario).mostrarMenu();
+            else if (usuario instanceof Administrador) {
                 cerrarSesion = mostrarMenuAdministrador((Administrador) usuario);
             } else if (usuario instanceof Cocinero) {
                 cerrarSesion = mostrarMenuCocinero((Cocinero) usuario);

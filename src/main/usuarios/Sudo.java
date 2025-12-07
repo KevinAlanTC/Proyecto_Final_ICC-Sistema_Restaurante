@@ -22,7 +22,7 @@ public class Sudo extends Usuario
         return new Administrador(nombre, email, password);
     }
     
-    private boolean mostrarMenuSudo() 
+    public boolean mostrarMenu() 
     {
 	    System.out.println("\n=== MENÚ SUDO ===");
 	    System.out.println("1. Crear nuevo usuario");
