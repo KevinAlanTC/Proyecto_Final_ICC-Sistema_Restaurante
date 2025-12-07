@@ -692,5 +692,13 @@ public class Mesero extends Empleado
         }
     }
     
-    
+    private void verMesasDisponibles() 
+    {
+        System.out.println("Mesas disponibles:");
+        for (Mesa mesa : sistema.getMesas()) {
+            if (!mesa.isOcupada()) {
+                System.out.println("Mesa #" + mesa.getNumero() + " (Capacidad: " + mesa.getCapacidad() + ")");
+            }
+        }
+    }
 }

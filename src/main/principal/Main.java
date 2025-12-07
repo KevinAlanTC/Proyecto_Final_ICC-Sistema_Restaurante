@@ -1,10 +1,9 @@
 package principal;
 import usuarios.*;
-import tareas.*;
-import restaurante.*;
-import excepciones.*;
-import database.DatabaseManager;
+
 import notificaciones.NotificadorTareas;
+import utilidades.EntradaUtils;
+
 
 import java.util.*;
 import java.text.SimpleDateFormat;
@@ -48,7 +47,7 @@ public class Main {
             System.out.println("2. Salir");
             System.out.print("Seleccione opción: ");
             
-            int opcion = leerEntero();
+            int opcion = EntradaUtils.leerEntero(scanner);
             
             switch (opcion) {
                 case 1:
@@ -104,28 +103,5 @@ public class Main {
             }
         }
     }    
-
-
-
-
-
     
-    private static void verMesasDisponibles() {
-        System.out.println("Mesas disponibles:");
-        for (Mesa mesa : sistema.getMesas()) {
-            if (!mesa.isOcupada()) {
-                System.out.println("Mesa #" + mesa.getNumero() + " (Capacidad: " + mesa.getCapacidad() + ")");
-            }
-        }
-    }
-    
-    private static int leerEntero() {
-        while (true) {
-            try {
-                return Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.print("Ingrese un número válido: ");
-            }
-        }
-    }
 }
