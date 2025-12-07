@@ -17,6 +17,23 @@ public class Main {
     public static void main(String[] args) {
         sistema = new SistemaTareas();
         scanner = new Scanner(System.in);
+
+        // Inyectar dependencias en los usuarios cargados
+        for (Usuario u : sistema.getUsuarios()) {
+            if (u instanceof Sudo sudo) {
+                sudo.setSistema(sistema);
+                sudo.setScanner(scanner);
+            } else if (u instanceof Administrador admin) {
+                admin.setSistema(sistema);
+                admin.setScanner(scanner);
+            } else if (u instanceof Cocinero coc) {
+                coc.setSistema(sistema);
+                coc.setScanner(scanner);
+            } else if (u instanceof Mesero mes) {
+                mes.setSistema(sistema);
+                mes.setScanner(scanner);
+            }
+        }
         
         // Iniciar hilo de notificaciones
         notificador = new NotificadorTareas(sistema.getTareas());
