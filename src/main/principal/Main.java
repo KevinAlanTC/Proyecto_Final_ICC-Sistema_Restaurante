@@ -538,47 +538,7 @@ public class Main {
         }
     }
     
-    private static void crearNuevoUsuario() {
-    System.out.println("\n=== CREAR NUEVO USUARIO ===");
-    System.out.println("Tipo de usuario:");
-    System.out.println("1. Administrador");
-    System.out.println("2. Cocinero");
-    System.out.println("3. Mesero");
-    System.out.print("Seleccione tipo: ");
     
-    int tipo = leerEntero();
-    
-    System.out.print("Nombre: ");
-    String nombre = scanner.nextLine();
-    
-    System.out.print("Email (debe terminar en .com): ");
-    String email = scanner.nextLine();
-    
-    System.out.print("Contraseña: ");
-    String password = scanner.nextLine();
-    
-    try {
-        switch (tipo) {
-            case 1:
-                sistema.agregarUsuario(new Administrador(nombre, email, password));
-                System.out.println(" Administrador creado exitosamente");
-                break;
-            case 2:
-                sistema.agregarUsuario(new Cocinero(nombre, email, password));
-                System.out.println(" Cocinero creado exitosamente");
-                break;
-            case 3:
-                sistema.agregarUsuario(new Mesero(nombre, email, password));
-                System.out.println(" Mesero creado exitosamente");
-                break;
-            default:
-                System.out.println(" Tipo de usuario inválido");
-                return;
-        }
-    } catch (EmailInvalidoException | NombreInvalidoException e) {
-        System.out.println(" Error: " + e.getMessage());
-    }
-}
     
     private static void crearTarea(Administrador admin) {
     System.out.print("Título de la tarea: ");

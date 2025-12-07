@@ -1,6 +1,7 @@
 package usuarios;
 
 import utilidades.EntradaUtils;
+import servicios.GestorUsuarios;
 
 import java.util.List;
 import java.util.Scanner;
@@ -44,11 +45,14 @@ public class Sudo extends Usuario
 	    int opcion = EntradaUtils.leerEntero(scanner);
 	    
 	    switch (opcion) {
-	        case 1:
-	            crearNuevoUsuario();
-	            System.out.println("\nPresione Enter para continuar...");
-	            scanner.nextLine();
-	            return false;
+		    case 1:
+		        // Crear un gestor de usuarios con las dependencias ya inyectadas
+		        GestorUsuarios gestor = new GestorUsuarios(sistema, scanner);
+		        gestor.crearNuevoUsuario();   // Llamada al método del gestor
+		        System.out.println("\nPresione Enter para continuar...");
+		        scanner.nextLine();
+		        return false;
+
 	        case 2:
 	            System.out.println("\n¿Mostrar contraseñas? (s/n): ");
 	            String respuesta = scanner.nextLine().toLowerCase();
