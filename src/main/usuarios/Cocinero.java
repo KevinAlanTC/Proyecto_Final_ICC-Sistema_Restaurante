@@ -142,7 +142,7 @@ public class Cocinero extends Empleado
 	        int listos = orden.getCantidadPlatillosListos(); // Cambiado
 	        int pendientes = orden.getCantidadPlatillosPendientes(); // Cambiado
 	        
-	        String estado = orden.estaLista() ? "✅ LISTA" : "🔄 EN PROCESO";
+	        String estado = orden.estaLista() ? "LISTA" : "EN PROCESO";
 	        
 	        System.out.println("\nOrden #" + orden.getId() + 
 	                         " | Mesa: " + orden.getMesa().getNumero() +
@@ -159,6 +159,114 @@ public class Cocinero extends Empleado
 	            System.out.println();
 	        }
 	    }
+	}
+
+    private void marcarPlatilloListo() 
+    {
+	    // Mostrar órdenes pendientes
+	    List<Orden> ordenesPendientes = sistema.getOrdenes().stream()
+	        .filter(o -> !o.isEntregada())
+	        .collect(java.util.stream.Collectors.toList());
+	    
+	    if (ordenesPendientes.isEmpty()) {
+	        System.out.println("No hay órdenes pendientes para preparar.");
+	        return;
+	    }
+	    
+	    System.out.println("\n=== ÓRDENES PENDIENTES ===");
+	    for (Orden orden : ordenesPendientes) {
+	        System.out.println("\n[Orden #" + orden.getId() + "]");
+	        System.out.println("Mesa: " + orden.getMesa().getNumero());
+	        System.out.println("Mesero: " + orden.getMesero().getNombre());
+	        System.out.println("Progreso: " + orden.getCantidadPlatillosListos() + "/" + orden.getTotalPlatillos() + " platillos listos");
+	        System.out.println("-------------------");
+	    }
+	    
+	    System.out.print("\nID de la orden a trabajar: ");
+	    int idOrden = EntradaUtils.leerEntero(scanner);
+	    
+	    Orden orden = sistema.getOrdenes().stream()
+	        .filter(o -> o.getId() == idOrden && !o.isEntregada())
+	        .findFirst()
+	        .orElse(null);
+	    
+	    if (orden == null) {
+	        System.out.println(" Orden no encontrada o ya entregada.");
+	        return;
+	    }
+	    
+	    // Mostrar items de esta orden específica
+	    System.out.println("\n=== ITEMS DE LA ORDEN #" + orden.getId() + " ===");
+	    orden.mostrarParaCocinero();
+	    
+	    List<ItemOrden> itemsPendientes = orden.getItemsPendientes();
+	    
+	    if (itemsPendientes.isEmpty()) {
+	        System.out.println("\n ¡Todos los items de esta orden ya están completos!");
+	        System.out.println("Estado: LISTA PARA ENTREGAR");
+	        return;
+	    }
+	    
+	    System.out.println("\nSeleccione el platillo a marcar como listo:");
+	    System.out.println("-------------------------------------------");
+	    
+	    int index = 1;
+	    for (ItemOrden item : itemsPendientes) {
+	        System.out.println(index + ". [ID: " + item.getPlatillo().getId() + "] " + 
+	                         item.getPlatillo().getNombre() + 
+	                         " - Pendientes: " + item.getCantidadPendiente() + "/" + item.getCantidad());
+	        index++;
+	    }
+	    
+	    System.out.print("\nSeleccione número del platillo (0 para cancelar): ");
+	    int seleccion = EntradaUtils.leerEntero(scanner);
+	    
+	    if (seleccion == 0) {
+	        System.out.println("Operación cancelada.");
+	        return;
+	    }
+	    
+	    if (seleccion < 1 || seleccion > itemsPendientes.size()) {
+	        System.out.println(" Selección inválida.");
+	        return;
+	    }
+	    
+	    ItemOrden itemSeleccionado = itemsPendientes.get(seleccion - 1);
+	    
+	    // Preguntar cuántas unidades marcar como listas
+	    System.out.println("\nPlatillo seleccionado: " + itemSeleccionado.getPlatillo().getNombre());
+	    System.out.println("Cantidad pendiente: " + itemSeleccionado.getCantidadPendiente() + " de " + itemSeleccionado.getCantidad());
+	    System.out.print("¿Cuántas unidades marcar como listas? (1-" + itemSeleccionado.getCantidadPendiente() + "): ");
+	    int cantidad = EntradaUtils.leerEntero(scanner);
+	    
+	    if (cantidad < 1 || cantidad > itemSeleccionado.getCantidadPendiente()) {
+	        System.out.println(" Cantidad inválida.");
+	        return;
+	    }
+	    
+	    // Usar el nuevo método que maneja cantidad
+	    this.marcarComidaLista(orden, itemSeleccionado.getPlatillo(), cantidad);
+	    
+	    System.out.println("\n Marcadas " + cantidad + " unidad(es) de '" + 
+	                     itemSeleccionado.getPlatillo().getNombre() + "' como LISTAS.");
+	    
+	    // Verificar si todos los items están completos
+	    if (orden.estaLista()) {
+	        System.out.println("\n ¡¡¡TODOS LOS ITEMS DE LA ORDEN #" + 
+	                         orden.getId() + " ESTÁN COMPLETOS!!!");
+	        System.out.println(" Informar al mesero que la orden está lista para entregar.");
+	        System.out.println("Mesa: " + orden.getMesa().getNumero());
+	        System.out.println("Mesero asignado: " + orden.getMesero().getNombre());
+	    } else {
+	        int pendientes = orden.getCantidadPlatillosPendientes();
+	        int total = orden.getTotalPlatillos();
+	        System.out.println(" Progreso: " + (total - pendientes) + "/" + 
+	                         total + " platillos listos");
+	        System.out.println(" Aún faltan " + pendientes + " platillo(s) por preparar.");
+	    }
+	    
+	    // Guardar estado del sistema
+	    sistema.guardarEstado();
 	}
 
 }
