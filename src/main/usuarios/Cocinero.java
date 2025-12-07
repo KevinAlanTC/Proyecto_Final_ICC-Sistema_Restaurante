@@ -15,6 +15,9 @@ public class Cocinero extends Empleado
 {
 	private SistemaTareas sistema;
     private Scanner scanner;
+    
+    public void setSistema(SistemaTareas sistema) { this.sistema = sistema; }
+    public void setScanner(Scanner scanner) { this.scanner = scanner; }
 	
     private int platillosPreparados;
     

@@ -17,6 +17,9 @@ public class Sudo extends Usuario
 {
 	private SistemaTareas sistema;
     private Scanner scanner;
+    
+    public void setSistema(SistemaTareas sistema) { this.sistema = sistema; }
+    public void setScanner(Scanner scanner) { this.scanner = scanner; }
 
     public Sudo(SistemaTareas sistema, Scanner scanner) 
     {

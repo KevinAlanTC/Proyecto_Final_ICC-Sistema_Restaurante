@@ -19,6 +19,9 @@ public class Administrador extends Usuario
 	private SistemaTareas sistema;
     private Scanner scanner;
     
+    public void setSistema(SistemaTareas sistema) { this.sistema = sistema; }
+    public void setScanner(Scanner scanner) { this.scanner = scanner; }
+    
     public Administrador(String nombre, String email, String password, SistemaTareas sistema, Scanner scanner) 
     {
         super(nombre, email, "Administrador", password);
