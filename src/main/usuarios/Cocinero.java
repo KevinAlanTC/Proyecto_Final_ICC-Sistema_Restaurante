@@ -18,9 +18,12 @@ public class Cocinero extends Empleado
 	
     private int platillosPreparados;
     
-    public Cocinero(String nombre, String email, String password) {
+    public Cocinero(String nombre, String email, String password, SistemaTareas sistema, Scanner scanner) 
+    {
         super(nombre, email, "Cocinero", password);
         this.platillosPreparados = 0;
+        this.sistema = sistema;
+        this.scanner = scanner;
     }
     
     // Método existente para una unidad
