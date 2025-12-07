@@ -530,6 +530,66 @@ public class Mesero extends Empleado
         }
     }
 
-    
+    private void eliminarPlatilloDeOrden(Orden orden) 
+    {
+        System.out.println("\n=== ELIMINAR PLATILLO DE LA ORDEN ===");
+        System.out.println("Platillos en la orden:");
+        
+        List<ItemOrden> items = orden.getItems();
+        if (items.isEmpty()) {
+            System.out.println("La orden no tiene platillos.");
+            return;
+        }
+        
+        int index = 1;
+        for (ItemOrden item : items) {
+            System.out.println(index + ". [ID: " + item.getPlatillo().getId() + "] " + 
+                             item.getPlatillo().getNombre() + 
+                             " x" + item.getCantidad() + 
+                             " - $" + item.getSubtotal() +
+                             " (" + item.getCantidadLista() + "/" + item.getCantidad() + " listos)");
+            index++;
+        }
+        
+        System.out.print("\nNúmero del platillo a eliminar (0 para cancelar): ");
+        int seleccion = EntradaUtils.leerEntero(scanner);
+        
+        if (seleccion == 0) {
+            System.out.println("Operación cancelada.");
+            return;
+        }
+        
+        if (seleccion < 1 || seleccion > items.size()) {
+            System.out.println(" Selección inválida.");
+            return;
+        }
+        
+        ItemOrden itemSeleccionado = items.get(seleccion - 1);
+        
+        System.out.println("\nPlatillo seleccionado: " + itemSeleccionado.getPlatillo().getNombre());
+        System.out.println("Cantidad: " + itemSeleccionado.getCantidad());
+        System.out.println("Listos: " + itemSeleccionado.getCantidadLista() + "/" + itemSeleccionado.getCantidad());
+        System.out.print("¿Está seguro de eliminar este platillo de la orden? (s/n): ");
+        String confirmacion = scanner.nextLine().toLowerCase();
+        
+        if (confirmacion.equals("s") || confirmacion.equals("si")) {
+            boolean eliminado = orden.eliminarPlatillo(itemSeleccionado.getPlatillo().getId());
+            if (eliminado) {
+                System.out.println(" Platillo eliminado de la orden.");
+                
+                // Si había platillos listos, informar al cocinero
+                if (itemSeleccionado.getCantidadLista() > 0) {
+                    System.out.println("  Se eliminaron " + itemSeleccionado.getCantidadLista() + 
+                                     " platillo(s) que ya estaban listos.");
+                    System.out.println("   Informar al cocinero sobre el cambio.");
+                }
+            } else {
+                System.out.println(" Error al eliminar el platillo.");
+            }
+        } else {
+            System.out.println("Operación cancelada.");
+        }
+    }
+
     
 }
