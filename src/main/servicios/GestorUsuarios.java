@@ -47,11 +47,11 @@ public class GestorUsuarios
 	                System.out.println(" Administrador creado exitosamente");
 	                break;
 	            case 2:
-	                sistema.agregarUsuario(new Cocinero(nombre, email, password));
+	                sistema.agregarUsuario(new Cocinero(nombre, email, password, sistema, scanner));
 	                System.out.println(" Cocinero creado exitosamente");
 	                break;
 	            case 3:
-	                sistema.agregarUsuario(new Mesero(nombre, email, password));
+	                sistema.agregarUsuario(new Mesero(nombre, email, password, sistema, scanner));
 	                System.out.println(" Mesero creado exitosamente");
 	                break;
 	            default:
