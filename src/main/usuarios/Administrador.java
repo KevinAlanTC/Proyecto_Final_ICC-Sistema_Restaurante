@@ -331,7 +331,7 @@ public class Administrador extends Usuario
 	    
 	    Tarea tarea = sistema.buscarTareaPorId(idTarea);
 	    if (tarea == null) {
-	        System.out.println("❌ Tarea no encontrada");
+	        System.out.println("Tarea no encontrada");
 	        return;
 	    }
 	    

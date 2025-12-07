@@ -31,7 +31,7 @@ public class Cocinero extends Empleado
         // Guardar estadística inmediatamente
         DatabaseManager.guardarEstadisticasCocinero(this);
         
-        System.out.println("✅ Unidad de '" + platillo.getNombre() + "' marcada como lista.");
+        System.out.println("Unidad de '" + platillo.getNombre() + "' marcada como lista.");
     }
     
     // Nuevo método para múltiples unidades
@@ -44,7 +44,7 @@ public class Cocinero extends Empleado
         // Guardar estadística inmediatamente
         DatabaseManager.guardarEstadisticasCocinero(this);
         
-        System.out.println("✅ " + cantidad + " unidad(es) de '" + platillo.getNombre() + "' marcada(s) como lista.");
+        System.out.println("" + cantidad + " unidad(es) de '" + platillo.getNombre() + "' marcada(s) como lista.");
     }
     
     public int getPlatillosPreparados() {
