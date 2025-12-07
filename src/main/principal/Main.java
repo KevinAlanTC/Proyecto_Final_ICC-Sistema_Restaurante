@@ -319,17 +319,7 @@ public class Main {
     
     
     
-    private static void listarEmpleados() {
-        List<Empleado> empleados = sistema.getEmpleados();
-        if (empleados.isEmpty()) {
-            System.out.println("No hay empleados registrados");
-        } else {
-            for (Empleado emp : empleados) {
-                emp.mostrarInfo(false);
-                System.out.println("-------------------");
-            }
-        }
-    }
+   
     
     private static void agregarNuevoEmpleado() {
     System.out.println("Tipo de empleado:");
