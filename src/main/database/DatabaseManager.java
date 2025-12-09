@@ -1,6 +1,7 @@
 package database;
 
 import usuarios.*;
+import tareas.EstadoTarea;
 import tareas.Tarea;
 import restaurante.*;
 import java.io.*;
@@ -446,8 +447,7 @@ public class DatabaseManager
         }
     }
 
-    public static List<Tarea> cargarTareas(List<Usuario> usuarios) 
-    {
+    public static List<Tarea> cargarTareas(List<Usuario> usuarios) {
         List<Tarea> tareas = new ArrayList<>();
         File file = new File(TAREAS_FILE);
 
@@ -462,7 +462,7 @@ public class DatabaseManager
             while ((line = reader.readLine()) != null) {
                 if (firstLine) {
                     firstLine = false;
-                    continue;
+                    continue; // Saltar encabezado
                 }
 
                 String[] datos = line.split(",");
@@ -471,9 +471,10 @@ public class DatabaseManager
                     String titulo = datos[1];
                     String descripcion = datos[2];
                     String fechaLimite = datos[3];
-                    String estado = datos[4];
+                    EstadoTarea estado = EstadoTarea.valueOf(datos[4]);
                     int usuarioId = Integer.parseInt(datos[5]);
 
+                    // Usar el nuevo constructor
                     Tarea tarea = new Tarea(id, titulo, descripcion, fechaLimite, estado);
 
                     // Vincular usuario asignado si existe

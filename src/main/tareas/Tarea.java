@@ -19,6 +19,14 @@ public class Tarea {
         this.estado = EstadoTarea.PENDIENTE;
     }
     
+    public Tarea(int id, String titulo, String descripcion, String fechaLimite, EstadoTarea estado) {
+        this.id = id;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.fechaLimite = fechaLimite;
+        this.estado = estado;
+    }
+    
     public void cambiarEstado(EstadoTarea nuevoEstado) {
         this.estado = nuevoEstado;
     }
