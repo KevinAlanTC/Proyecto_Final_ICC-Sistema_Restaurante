@@ -84,7 +84,7 @@ public class SistemaTareas {
         DatabaseManager.guardarMesas(mesas);
         DatabaseManager.guardarOrdenes(ordenes);
         
-        System.out.println("✅ Estado del sistema guardado exitosamente.");
+        System.out.println("Estado del sistema guardado exitosamente.");
     }
     
     // Método para agregar orden y guardar
@@ -222,33 +222,33 @@ public class SistemaTareas {
         Orden orden = buscarOrdenPorId(idOrden);
         
         if (orden == null) {
-            System.out.println("❌ Orden no encontrada.");
+            System.out.println(" Orden no encontrada.");
             return false;
         }
         
         // Verificar si la orden ya fue entregada
         if (orden.isEntregada()) {
-            System.out.println("⚠️  No se puede eliminar una orden ya entregada.");
-            System.out.println("   Si necesita anular una venta, use el sistema de contabilidad.");
+            System.out.println(" No se puede eliminar una orden ya entregada.");
+            System.out.println(" Si necesita anular una venta, use el sistema de contabilidad.");
             return false;
         }
         
         // Liberar la mesa si está ocupada
         if (orden.getMesa().isOcupada()) {
             orden.getMesa().setOcupada(false);
-            System.out.println("✅ Mesa " + orden.getMesa().getNumero() + " liberada.");
+            System.out.println(" Mesa " + orden.getMesa().getNumero() + " liberada.");
         }
         
         // Remover la orden de la lista
         boolean eliminada = ordenes.removeIf(o -> o.getId() == idOrden);
         
         if (eliminada) {
-            System.out.println("✅ Orden #" + idOrden + " eliminada exitosamente.");
+            System.out.println(" Orden #" + idOrden + " eliminada exitosamente.");
             
             // Ajustar ventas del día si la orden era del día de hoy
             if (esOrdenDeHoy(orden)) {
                 ventasDia -= orden.getTotal();
-                System.out.println("⚠️  Se descontó $" + orden.getTotal() + " de las ventas del día.");
+                System.out.println(" Se descontó $" + orden.getTotal() + " de las ventas del día.");
             }
             
             // Guardar cambios
