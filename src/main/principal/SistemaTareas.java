@@ -22,7 +22,7 @@ public class SistemaTareas {
         this.platillos = DatabaseManager.cargarPlatillos();
         this.usuarios = DatabaseManager.cargarUsuarios();
         this.ordenes = DatabaseManager.cargarOrdenes(mesas, usuarios, platillos);
-        this.tareas = new ArrayList<>();
+        this.tareas = DatabaseManager.cargarTareas(usuarios);
         this.ventasDia = 0.0;
         
         inicializarDatos();
@@ -83,6 +83,7 @@ public class SistemaTareas {
         DatabaseManager.guardarPlatillos(platillos);
         DatabaseManager.guardarMesas(mesas);
         DatabaseManager.guardarOrdenes(ordenes);
+        DatabaseManager.guardarTareas(tareas);
         
         System.out.println("Estado del sistema guardado exitosamente.");
     }
@@ -216,7 +217,6 @@ public class SistemaTareas {
     // Setters
     public void setUsuarioActual(Usuario usuarioActual) { this.usuarioActual = usuarioActual; }
     
- // En SistemaTareas.java, agrega este método:
 
     public boolean eliminarOrden(int idOrden) {
         Orden orden = buscarOrdenPorId(idOrden);
