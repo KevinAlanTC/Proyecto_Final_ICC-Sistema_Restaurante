@@ -283,13 +283,13 @@ public class Administrador extends Usuario
 	    String descripcion = scanner.nextLine();
 	    
 	    // Solicitar fecha con formato específico
-	    System.out.print("Fecha límite (Formato: yyyy-MM-dd HH:mm, ejemplo: 2024-12-31 18:30): ");
+	    System.out.print("Fecha límite (Formato: yyyy-MM-dd HH:mm, ejemplo: 2025-12-31 18:30): ");
 	    String fechaLimite = scanner.nextLine();
 	    
 	    // Validar formato de fecha
 	    if (!validarFormatoFecha(fechaLimite)) {
 	        System.out.println(" Error: El formato de fecha debe ser yyyy-MM-dd HH:mm");
-	        System.out.println("   Ejemplo: 2024-12-31 18:30");
+	        System.out.println("   Ejemplo: 2025-12-31 18:30");
 	        return;
 	    }
 	    

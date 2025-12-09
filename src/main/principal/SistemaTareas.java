@@ -281,7 +281,7 @@ public class SistemaTareas {
     
     private void validarFechaLimite(String fechaLimite) throws FechaInvalidaException {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             Date fecha = sdf.parse(fechaLimite);
             Date ahora = new Date();
 
@@ -296,7 +296,7 @@ public class SistemaTareas {
                 throw new FechaInvalidaException("Debe haber al menos una hora de anticipación.");
             }
         } catch (Exception e) {
-            throw new FechaInvalidaException("Formato de fecha inválido. Use yyyy-MM-dd HH:mm:ss");
+            throw new FechaInvalidaException("Formato de fecha inválido. Use yyyy-MM-dd HH:mm");
         }
     }
 
