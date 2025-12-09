@@ -206,16 +206,16 @@ public class SistemaTareas {
             .orElse(null);
     }
     
-    private void validarEmail(String email) throws EmailInvalidoException {
-        if (!email.contains("@") || !email.endsWith(".com")) {
-            throw new EmailInvalidoException("El email debe contener @ y terminar en .com");
-        }
+    public void validarNombre(String nombre) throws NombreInvalidoException 
+    {
+        if (nombre == null || !nombre.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{3,}$"))
+            throw new NombreInvalidoException("El nombre debe tener al menos 3 letras y solo contener caracteres válidos.");
     }
-    
-    private void validarNombre(String nombre) throws NombreInvalidoException {
-        if (nombre == null || nombre.trim().length() < 3) {
-            throw new NombreInvalidoException("El nombre debe tener al menos 3 letras");
-        }
+
+    public void validarEmail(String email) throws EmailInvalidoException 
+    {
+        if (email == null || !email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.com$"))
+            throw new EmailInvalidoException("El email debe contener '@', terminar en '.com' y ser válido.");
     }
     
     // Getters
