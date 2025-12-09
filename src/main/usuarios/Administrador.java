@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import excepciones.EmailInvalidoException;
+import excepciones.FechaInvalidaException;
 import excepciones.NombreInvalidoException;
 import principal.SistemaTareas;
 import restaurante.Orden;
@@ -293,7 +294,13 @@ public class Administrador extends Usuario
 	    }
 	    
 	    Tarea tarea = this.crearTarea(titulo, descripcion, fechaLimite);
-	    sistema.agregarTarea(tarea);
+	    try {
+	        sistema.agregarTarea(tarea);
+	        System.out.println(" Tarea creada exitosamente");
+	    } catch (FechaInvalidaException e) {
+	        System.out.println(" Error al crear tarea: " + e.getMessage());
+	    }
+
 	    System.out.println(" Tarea creada exitosamente");
 	}
     
