@@ -2,14 +2,14 @@ package usuarios;
 
 import utilidades.EntradaUtils;
 import servicios.GestorLogs;
+import servicios.GestorUsuarios;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import excepciones.EmailInvalidoException;
-import excepciones.NombreInvalidoException;
+import excepciones.FechaInvalidaException;
 import principal.SistemaTareas;
 import restaurante.Orden;
 import tareas.Tarea;
@@ -99,8 +99,9 @@ public class Administrador extends Usuario
 	            System.out.println("\nPresione Enter para continuar...");
 	            scanner.nextLine();
 	            return false;
-	        case 6:
-	            agregarNuevoEmpleado();
+	        case 6: // Agregar nuevo empleado
+	            GestorUsuarios gestor = new GestorUsuarios(sistema, scanner);
+	            gestor.crearNuevoUsuario();   // delega directamente al gestor
 	            System.out.println("\nPresione Enter para continuar...");
 	            scanner.nextLine();
 	            return false;
@@ -169,7 +170,7 @@ public class Administrador extends Usuario
 	    // Verificar que no sea administrador o sudo
 	    if (usuario instanceof Administrador || usuario instanceof Sudo) {
 	        System.out.println("No tiene permisos para eliminar administradores.");
-	        System.out.println("   Solo el Sudo puede eliminar administradores.");
+	        System.out.println("Solo el Sudo puede eliminar administradores.");
 	        return;
 	    }
 	    
@@ -282,19 +283,23 @@ public class Administrador extends Usuario
 	    String descripcion = scanner.nextLine();
 	    
 	    // Solicitar fecha con formato específico
-	    System.out.print("Fecha límite (Formato: yyyy-MM-dd HH:mm, ejemplo: 2024-12-31 18:30): ");
+	    System.out.print("Fecha límite (Formato: yyyy-MM-dd HH:mm, ejemplo: 2025-12-31 18:30): ");
 	    String fechaLimite = scanner.nextLine();
 	    
 	    // Validar formato de fecha
 	    if (!validarFormatoFecha(fechaLimite)) {
 	        System.out.println(" Error: El formato de fecha debe ser yyyy-MM-dd HH:mm");
-	        System.out.println("   Ejemplo: 2024-12-31 18:30");
+	        System.out.println("   Ejemplo: 2025-12-31 18:30");
 	        return;
 	    }
 	    
 	    Tarea tarea = this.crearTarea(titulo, descripcion, fechaLimite);
-	    sistema.agregarTarea(tarea);
-	    System.out.println(" Tarea creada exitosamente");
+	    try {
+	        sistema.agregarTarea(tarea);
+	        System.out.println(" Tarea creada exitosamente");
+	    } catch (FechaInvalidaException e) {
+	        System.out.println(" Error al crear tarea: " + e.getMessage());
+	    }
 	}
     
     // Método para validar el formato de fecha
@@ -394,40 +399,7 @@ public class Administrador extends Usuario
             }
         }
     }
-    
-    private void agregarNuevoEmpleado() 
-    {
-	    System.out.println("Tipo de empleado:");
-	    System.out.println("1. Cocinero");
-	    System.out.println("2. Mesero");
-	    System.out.print("Seleccione: ");
-	    
-	    int tipo = EntradaUtils.leerEntero(scanner);
-	    
-	    System.out.print("Nombre: ");
-	    String nombre = scanner.nextLine();
-	    
-	    System.out.print("Email (debe terminar en .com): ");
-	    String email = scanner.nextLine();
-	    
-	    System.out.print("Contraseña: ");
-	    String password = scanner.nextLine();
-	    
-	    try {
-	        if (tipo == 1) {
-	            sistema.agregarUsuario(new Cocinero(nombre, email, password, sistema, scanner));
-	            System.out.println(" Cocinero agregado exitosamente");
-	        } else if (tipo == 2) {
-	            sistema.agregarUsuario(new Mesero(nombre, email, password, sistema, scanner));
-	            System.out.println(" Mesero agregado exitosamente");
-	        } else {
-	            System.out.println(" Opción inválida");
-	        }
-	    } catch (EmailInvalidoException | NombreInvalidoException e) {
-	        System.out.println(" Error: " + e.getMessage());
-	    }
-	}
-    
+      
     private void eliminarTarea() 
     {
         System.out.println("\n=== ELIMINAR TAREA ===");
