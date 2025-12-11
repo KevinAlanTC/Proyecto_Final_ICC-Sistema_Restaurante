@@ -2,6 +2,8 @@ package usuarios;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import tareas.EstadoTarea;
 import tareas.Tarea;
 
 public abstract class Empleado extends Usuario {
@@ -61,7 +63,35 @@ public abstract class Empleado extends Usuario {
             for (String n : notificaciones)
                 System.out.println(" " + n);
         }
+        notificaciones.clear(); // limpiar después de mostrar
     }
 
+    public void completarTarea(Tarea tarea) {
+        if (tareasAsignadas.contains(tarea)) {
+            tarea.cambiarEstado(EstadoTarea.FINALIZADA);
+            System.out.println("La tarea '" + tarea.getTitulo() + "' ha sido completada.");
+        } else {
+            System.out.println("La tarea no está asignada a este empleado.");
+        }
+    }
+
+    // Método para mostrar tareas pendientes
+    public void mostrarTareasPendientes() {
+        System.out.println("=== TAREAS PENDIENTES ===");
+        for (Tarea t : tareasAsignadas) {
+            if (t.getEstado() != EstadoTarea.FINALIZADA) {
+                System.out.println(" - " + t.getTitulo() + " (Estado: " + t.getEstado() + ")");
+            }
+        }
+    }
     
+    public Tarea buscarTareaPorTitulo(String titulo) {
+        for (Tarea t : tareasAsignadas) {
+            if (t.getTitulo().equalsIgnoreCase(titulo)) {
+                return t;
+            }
+        }
+        return null;
+    }
+
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import servicios.GestorLogs;
-
+import tareas.Tarea;
 import principal.SistemaTareas;
 import restaurante.*;
 import utilidades.EntradaUtils;
@@ -78,7 +78,8 @@ public class Mesero extends Empleado
 	    System.out.println("6. Ver mesas disponibles");
 	    System.out.println("7. Ver mis tareas");
 	    System.out.println("8. Ver mi información");
-	    System.out.println("9. Cerrar sesión");
+	    System.out.println("9. Marcar tarea como completada");
+	    System.out.println("10. Cerrar sesión");
 	    System.out.print("Seleccione opción: ");
 	    
 	    int opcion = EntradaUtils.leerEntero(scanner);
@@ -125,6 +126,17 @@ public class Mesero extends Empleado
 	            scanner.nextLine();
 	            return false;
 	        case 9:
+	            mostrarTareasPendientes();
+	            System.out.print("Ingrese el título de la tarea a completar: ");
+	            String titulo = scanner.nextLine();
+	            Tarea tarea = buscarTareaPorTitulo(titulo);
+	            if (tarea != null) {
+	                completarTarea(tarea);
+	            } else {
+	                System.out.println(" No se encontró la tarea con ese título.");
+	            }
+	            return false;
+	        case 10:
 	            sistema.setUsuarioActual(null);
 	            System.out.println("Sesión cerrada correctamente.");
 	            return true;

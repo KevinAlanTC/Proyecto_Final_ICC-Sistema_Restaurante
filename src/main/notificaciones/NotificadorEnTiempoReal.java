@@ -14,7 +14,7 @@ public class NotificadorEnTiempoReal implements Runnable {
     public void run() {
         while (activo) {
             try {
-                Thread.sleep(10000); // pausa de 5 segundos
+                Thread.sleep(15000); // pausa de 15 segundos
             } catch (InterruptedException e) {
                 // Si el hilo fue interrumpido, salimos del bucle inmediatamente
                 Thread.currentThread().interrupt();

@@ -1,6 +1,7 @@
 package usuarios;
 
 import restaurante.Platillo;
+import tareas.Tarea;
 import restaurante.ItemOrden;
 import restaurante.Orden;
 
@@ -73,7 +74,8 @@ public class Cocinero extends Empleado
         System.out.println("3. Ver detalles de órdenes pendientes");
         System.out.println("4. Marcar platillo como listo");
         System.out.println("5. Ver mi información");
-        System.out.println("6. Cerrar sesión");
+        System.out.println("6. Marcar tarea como completada");
+        System.out.println("7. Cerrar sesión");
         System.out.print("Seleccione opción: ");
         
         int opcion = EntradaUtils.leerEntero(scanner);
@@ -104,10 +106,21 @@ public class Cocinero extends Empleado
                 System.out.println("\nPresione Enter para continuar...");
                 scanner.nextLine();
                 return false;
-            case 6:
+            case 7:
                 sistema.setUsuarioActual(null);
                 System.out.println("Sesión cerrada correctamente.");
                 return true;
+            case 6: 
+                mostrarTareasPendientes();
+                System.out.print("Ingrese el título de la tarea a completar: ");
+                String titulo = scanner.nextLine();
+                Tarea tarea = buscarTareaPorTitulo(titulo);
+                if (tarea != null) {
+                    completarTarea(tarea);
+                } else {
+                    System.out.println("No se encontró la tarea con ese título.");
+                }
+                return false;
             default:
                 System.out.println("Opción inválida");
                 System.out.println("\nPresione Enter para continuar...");
