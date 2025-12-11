@@ -48,9 +48,9 @@ public abstract class Empleado extends Usuario {
         return notificaciones;
     }
 
-    public void limpiarNotificaciones() 
+    public void eliminarNotificacionesDeTarea(String tituloTarea) 
     {
-        notificaciones.clear();
+        notificaciones.removeIf(n -> n.contains("'" + tituloTarea + "'"));
     }
 
     public void mostrarNotificacionesPendientes() 
@@ -62,5 +62,6 @@ public abstract class Empleado extends Usuario {
                 System.out.println(" " + n);
         }
     }
+
     
 }
