@@ -1,6 +1,10 @@
 package usuarios;
 
-public abstract class Usuario {
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Usuario 
+{
     protected static int contadorId = 1;
     protected int id;
     protected String nombre;
@@ -53,5 +57,23 @@ public abstract class Usuario {
     public void setPassword(String password) { this.password = password; }
     
     public abstract boolean mostrarMenu();
+    
+    // Métodos de notificaciones
+    private List<String> notificaciones = new ArrayList<>();
+
+    public void agregarNotificacion(String mensaje) 
+    {
+        notificaciones.add(mensaje);
+    }
+
+    public List<String> getNotificaciones() 
+    {
+        return notificaciones;
+    }
+
+    public void limpiarNotificaciones() 
+    {
+        notificaciones.clear();
+    }
 
 }
