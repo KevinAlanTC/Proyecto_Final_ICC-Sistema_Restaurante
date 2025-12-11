@@ -305,4 +305,13 @@ public class SistemaTareas {
         }
     }
 
+    public void reconstruirAsignaciones() 
+    {
+        for (Tarea tarea : tareas) 
+        {
+            Usuario asignado = tarea.getUsuarioAsignado();
+            if (asignado instanceof Empleado)
+                ((Empleado) asignado).agregarTarea(tarea);
+        }
+    }
 }

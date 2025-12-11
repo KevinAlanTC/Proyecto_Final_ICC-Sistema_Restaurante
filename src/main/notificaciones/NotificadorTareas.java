@@ -9,7 +9,7 @@ import java.util.Date;
 public class NotificadorTareas extends Thread {
     private List<Tarea> tareas;
     private boolean activo;
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd H:mm");
     
     public NotificadorTareas(List<Tarea> tareas) {
         this.tareas = tareas;

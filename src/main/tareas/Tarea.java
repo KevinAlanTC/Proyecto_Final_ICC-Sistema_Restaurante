@@ -41,7 +41,7 @@ public class Tarea {
     public void cambiarEstado(EstadoTarea nuevoEstado) 
     {
         this.estado = nuevoEstado;
-        if (nuevoEstado == EstadoTarea.FINALIZADA || nuevoEstado == EstadoTarea.VENCIDA) 
+        if (nuevoEstado == EstadoTarea.FINALIZADA) 
         {
             if (getUsuarioAsignado() instanceof Empleado)
                 ((Empleado) getUsuarioAsignado()).eliminarNotificacionesDeTarea(this.titulo);
