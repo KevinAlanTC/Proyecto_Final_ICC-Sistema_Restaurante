@@ -115,7 +115,6 @@ public class SistemaTareas {
         DatabaseManager.registrarVenta(monto, "Venta registrada");
     }
     
-    // Resto de los métodos existentes...
     public Usuario autenticarUsuario(String email, String password) {
         return usuarios.stream()
             .filter(u -> u.getEmail().equals(email) && u.verificarPassword(password))
