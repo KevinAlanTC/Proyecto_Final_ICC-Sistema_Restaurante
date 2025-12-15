@@ -20,7 +20,7 @@ El sistema gestiona **usuarios con diferentes roles** (Administrador, Cocinero, 
 ## Instalación y ejecución
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/KevinAlanTC/proyecto_sistema_tareas_restaurante.git
+   git clone https://github.com/KevinAlanTC/Proyecto_Final_ICC-Sistema_Restaurante.git
    cd sistema-tareas-restaurante
    ```
 
